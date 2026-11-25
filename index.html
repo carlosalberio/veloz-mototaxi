@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#111a16">
+    <meta
+      name="description"
+      content="Peça uma corrida ou envie encomendas e documentos com a Veloz Mototáxi em Serra Talhada."
+    >
+    <title>VELOZ — </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    >
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+    <link rel="stylesheet" href="style.css?v=12">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+    <script src="script.js?v=14" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#" aria-label="Veloz, início">
+        <img class="brand-mark" src="icon.jpg" alt="" aria-hidden="true">
+        <span>Veloz<span class="brand-period">.</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Navegação principal">
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-art">
+          <img
+            class="hero-art-image"
+            src="moto.png.png"
+            alt="Mototaxista usando capacete e colete refletivo, sentado em uma moto."
+          >
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="live-dot" aria-hidden="true"></span> SEU CAMINHO, MAIS RÁPIDO</p>
+            <h1 id="hero-title">A cidade não<br>espera. <span>Você também não.</span></h1>
+            <p class="hero-description">
+              Fuja do trânsito e chegue no seu tempo. Peça sua corrida de moto em poucos passos.
+            </p>
+          </div>
+        </div>
+
+        <aside class="hero-aside" aria-label="Acesso à conta e solicitação de corrida">
+          <div class="hero-aside-copy">
+            <p class="eyebrow">PRONTO PARA IR?</p>
+            <h2 class="hero-aside-title">Sua próxima corrida começa aqui.</h2>
+          </div>
+          <div class="hero-actions">
+            <button class="account-access-button" id="open-account" type="button" aria-controls="auth-section" aria-expanded="false">
+              Para onde quer ir agora?
+            </button>
+            <p class="hero-aside-description">Entre na sua conta ou faça seu cadastro para continuar.</p>
+            <button class="header-cta" id="open-booking" type="button" aria-controls="pedir-corrida" aria-expanded="false" hidden>
+              Pedir corrida <span aria-hidden="true">↗</span>
+            </button>
+            <button class="delivery-cta" id="open-delivery" type="button" aria-controls="pedir-corrida" aria-expanded="false" hidden>
+              <span aria-hidden="true">📦</span> Enviar pedido <span aria-hidden="true">↗</span>
+            </button>
+            <p class="welcome-message" id="welcome-message" aria-live="polite" hidden></p>
+            <button class="logout-button" id="logout-button" type="button" hidden>Sair da conta</button>
+          </div>
+        </aside>
+      </section>
+
+      <section class="auth-section" id="auth-section" aria-labelledby="auth-title" hidden>
+        <div class="auth-card" id="auth-card" aria-labelledby="auth-title">
+          <button class="booking-close-button" id="close-auth" type="button" aria-label="Fechar identificação">×</button>
+
+          <header class="auth-heading">
+            <p class="eyebrow">MINHA CONTA</p>
+            <h1 id="auth-title">Bem-vindo de volta</h1>
+            <p id="auth-subtitle">Entre na sua conta para continuar.</p>
+          </header>
+
+          <div class="auth-panel">
+            <div class="account-tabs" role="tablist" aria-label="Tipo de conta">
+              <button
+                class="account-tab is-active"
+                id="client-tab"
+                type="button"
+                role="tab"
+                aria-selected="true"
+                aria-controls="auth-login-form"
+                data-account-type="cliente"
+              >Sou cliente</button>
+              <button
+                class="account-tab"
+                id="driver-tab"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="auth-login-form"
+                data-account-type="mototaxista"
+              >Sou mototaxista</button>
+            </div>
+
+            <!-- Formulário de Login (login.html) -->
+            <form class="auth-form" id="auth-login-form">
+              <div class="field">
+                <label for="login-email">E-mail</label>
+                <div class="input-wrap">
+                  <input
+                    id="login-email"
+                    name="email"
+                    type="email"
+                    placeholder="nome@email.com"
+                    autocomplete="email"
+                    maxlength="254"
+                    required
+                  >
+                </div>
+              </div>
+              <div class="field">
+                <label for="login-password">Senha</label>
+                <div class="input-wrap">
+                  <input
+                    id="login-password"
+                    name="password"
+                    type="password"
+                    placeholder="Sua senha"
+                    autocomplete="current-password"
+                    minlength="8"
+                    maxlength="128"
+                    required
+                  >
+                </div>
+              </div>
+              <button class="submit-button auth-submit-button" type="submit">
+                <span data-submit-label>Entrar</span>
+                <span aria-hidden="true">↗</span>
+              </button>
+            </form>
+
+            <!-- Formulário de Cadastro (cadastro.html) -->
+            <form class="auth-form" id="auth-register-form" hidden>
+              <div class="form-row">
+                <div class="field">
+                  <label for="register-name">Nome completo</label>
+                  <div class="input-wrap">
+                    <input
+                      id="register-name"
+                      name="name"
+                      type="text"
+                      placeholder="Seu nome"
+                      autocomplete="name"
+                      minlength="2"
+                      maxlength="120"
+                      required
+                      disabled
+                    >
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="register-age">Idade</label>
+                  <div class="input-wrap">
+                    <input
+                      id="register-age"
+                      name="age"
+                      type="number"
+                      min="18"
+                      max="100"
+                      placeholder="Sua idade"
+                      required
+                      disabled
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="field">
+                  <label for="register-email">E-mail</label>
+                  <div class="input-wrap">
+                    <input
+                      id="register-email"
+                      name="email"
+                      type="email"
+                      placeholder="nome@email.com"
+                      autocomplete="email"
+                      maxlength="254"
+                      required
+                      disabled
+                    >
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="register-phone">Celular</label>
+                  <div class="input-wrap">
+                    <input
+                      id="register-phone"
+                      name="phone"
+                      type="tel"
+                      placeholder="(00) 00000-0000"
+                      autocomplete="tel"
+                      minlength="8"
+                      maxlength="32"
+                      required
+                      disabled
+                    >
+                  </div>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="register-password">Criar senha</label>
+                <div class="input-wrap">
+                  <input
+                    id="register-password"
+                    name="password"
+                    type="password"
+                    placeholder="Mínimo 8 caracteres"
+                    autocomplete="new-password"
+                    minlength="8"
+                    maxlength="128"
+                    required
+                    disabled
+                  >
+                </div>
+              </div>
+
+              <div class="driver-registration" id="driver-registration" hidden>
+                <p class="registration-subtitle">Documentação do mototaxista</p>
+
+                <div class="form-row">
+                  <div class="field">
+                    <label for="register-cpf">CPF</label>
+                    <div class="input-wrap">
+                      <input id="register-cpf" name="cpf" type="text" placeholder="000.000.000-00" inputmode="numeric" disabled>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label for="register-cnh">Número da CNH</label>
+                    <div class="input-wrap">
+                      <input id="register-cnh" name="cnh" type="text" placeholder="Número da habilitação" inputmode="numeric" disabled>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="field">
+                    <label for="register-cnh-category">Categoria da CNH</label>
+                    <div class="input-wrap">
+                      <select id="register-cnh-category" name="cnhCategory" disabled>
+                        <option value="">Selecione</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="A/B">A/B</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label for="register-cnh-expiry">Validade da CNH</label>
+                    <div class="input-wrap">
+                      <input id="register-cnh-expiry" name="cnhExpiry" type="date" disabled>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="field">
+                    <label for="register-motorcycle">Moto</label>
+                    <div class="input-wrap">
+                      <input id="register-motorcycle" name="motorcycle" type="text" placeholder="Modelo da moto" maxlength="120" disabled>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label for="register-plate">Placa da moto</label>
+                    <div class="input-wrap">
+                      <input id="register-plate" name="plate" type="text" placeholder="ABC1D23" maxlength="8" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button class="submit-button auth-submit-button" type="submit" disabled>
+                <span data-submit-label>Criar cadastro</span>
+                <span aria-hidden="true">↗</span>
+              </button>
+            </form>
+
+            <p class="auth-feedback" id="auth-feedback" role="status" aria-live="polite" hidden></p>
+            <p class="auth-navigation" id="auth-nav-login">Não tem uma conta? <a href="#cadastro" id="link-to-register">Criar cadastro</a></p>
+            <p class="auth-navigation" id="auth-nav-register" hidden>Já possui uma conta? <a href="#login" id="link-to-login">Entrar</a></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="booking-section" id="pedir-corrida" aria-labelledby="booking-title" hidden>
+        <div class="booking-heading">
+          <div>
+            <p class="eyebrow" id="booking-eyebrow">SUA PRÓXIMA VIAGEM</p>
+            <h2 id="booking-title">Peça sua corrida aqui</h2>
+          </div>
+          <button class="booking-close-button" id="close-booking" type="button" aria-label="Fechar pedido de corrida">×</button>
+        </div>
+
+        <div class="service-selector" role="tablist" aria-label="Tipo de serviço">
+          <button class="service-tab is-active" id="service-tab-passenger" type="button" role="tab" aria-selected="true" aria-controls="booking-form">
+            <span class="service-tab-icon" aria-hidden="true">👤</span>
+            <span>Pedir corrida</span>
+          </button>
+          <button class="service-tab" id="service-tab-order" type="button" role="tab" aria-selected="false" aria-controls="booking-form">
+            <span class="service-tab-icon" aria-hidden="true">📦</span>
+            <span>Enviar pedido</span>
+          </button>
+        </div>
+
+        <div class="booking-layout">
+          <aside class="booking-map-panel" aria-label="Mapa e localização da corrida">
+            <div class="map-toolbar">
+              <div>
+                <h3>Seu trajeto</h3>
+                <p id="map-status" role="status" aria-live="polite">Pesquise e selecione os endereços para marcá-los no mapa.</p>
+              </div>
+              <button class="location-button" id="use-current-location" type="button">Usar minha localização</button>
+            </div>
+            <div id="ride-map" class="ride-map" role="region" aria-label="Mapa interativo dos locais selecionados">
+              <p class="map-fallback" id="map-fallback" role="status">Carregando mapa…</p>
+            </div>
+            <p class="map-provider-note">As buscas de endereço são enviadas ao Photon/OpenStreetMap. Nome e telefone não são enviados ao provedor.</p>
+          </aside>
+
+          <div class="booking-form-panel">
+            <form class="booking-form" id="booking-form">
+              <div class="field address-field">
+                <label for="pickup" id="pickup-label">Onde vamos te buscar?</label>
+                <div class="input-wrap">
+                  <span class="field-icon pickup-icon" aria-hidden="true"></span>
+                  <input id="pickup" name="pickup" type="text" placeholder="Digite rua, número ou estabelecimento" autocomplete="off" aria-autocomplete="list" aria-controls="pickup-suggestions" aria-describedby="pickup-help pickup-status" required>
+                </div>
+                <div class="address-suggestions" id="pickup-suggestions" role="listbox" aria-label="Sugestões de embarque" hidden></div>
+                <p class="field-status" id="pickup-help">Ao abrir o formulário, vamos detectar sua localização. Você pode editar o endereço ou escolher outro ponto no mapa.</p>
+                <p class="field-status" id="pickup-status" role="status" aria-live="polite"></p>
+              </div>
+
+              <div class="field address-field">
+                <label for="destination" id="destination-label">Para onde você vai?</label>
+                <div class="input-wrap">
+                  <span class="field-icon destination-icon" aria-hidden="true"></span>
+                  <input id="destination" name="destination" type="text" placeholder="Pesquise o destino" autocomplete="off" aria-autocomplete="list" aria-controls="destination-suggestions" required>
+                </div>
+                <div class="address-suggestions" id="destination-suggestions" role="listbox" aria-label="Sugestões de destino" hidden></div>
+                <p class="field-status" id="destination-status" role="status" aria-live="polite"></p>
+              </div>
+
+              <button
+                class="passenger-toggle"
+                id="toggle-other-passenger"
+                type="button"
+                aria-controls="other-passenger-fields"
+                aria-expanded="false"
+              >
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
+                  <circle cx="9" cy="8" r="3.5"></circle>
+                  <path d="M2.8 20v-1.6A4.4 4.4 0 0 1 7.2 14h3.6a4.4 4.4 0 0 1 4.4 4.4V20"></path>
+                  <path d="M19 8v6m-3-3h6"></path>
+                </svg>
+                <span>Pedir para outra pessoa</span>
+              </button>
+
+              <section
+                class="passenger-disclosure"
+                id="other-passenger-fields"
+                aria-label="Dados do passageiro"
+                aria-hidden="true"
+                hidden
+              >
+                <div class="passenger-disclosure-inner">
+                  <div class="passenger-fields">
+                    <div class="field">
+                      <label for="other-passenger-name">Nome completo do passageiro</label>
+                      <div class="input-wrap">
+                        <span class="inline-icon name-icon" aria-hidden="true">☺</span>
+                        <input id="other-passenger-name" type="text" placeholder="Nome da pessoa que vai viajar" autocomplete="name" minlength="2" maxlength="120" disabled>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label for="other-passenger-phone">Celular do passageiro com DDD</label>
+                      <div class="input-wrap">
+                        <span class="inline-icon phone-icon" aria-hidden="true">⌕</span>
+                        <input id="other-passenger-phone" type="tel" placeholder="(87) 91234-5678" autocomplete="tel" inputmode="tel" maxlength="15" aria-describedby="other-passenger-status" disabled>
+                      </div>
+                      <p class="field-status" id="other-passenger-status" role="status" aria-live="polite"></p>
+                    </div>
+                  </div>
+                  <button class="passenger-cancel" id="cancel-other-passenger" type="button" disabled>Cancelar</button>
+                </div>
+              </section>
+
+              <section class="customer-profile-completion" id="customer-profile-completion" aria-labelledby="customer-profile-title" hidden>
+                <div>
+                  <h3 id="customer-profile-title">Atualize os dados da sua conta</h3>
+                  <p id="customer-profile-message"></p>
+                </div>
+                <div class="customer-profile-fields" id="customer-profile-fields"></div>
+                <button class="secondary-button" id="update-customer-profile" type="button">Salvar dados</button>
+                <p class="field-status" id="customer-profile-feedback" role="status" aria-live="polite"></p>
+              </section>
+
+              <fieldset class="payment-field">
+                <legend>Forma de pagamento</legend>
+                <div class="payment-options">
+                  <label class="payment-option is-unavailable" aria-describedby="unavailable-payments-note">
+                    <input type="radio" name="paymentMethod" value="Pix" disabled>
+                    <span>Pix <small>Indisponível</small></span>
+                  </label>
+                  <label class="payment-option is-unavailable" aria-describedby="unavailable-payments-note">
+                    <input type="radio" name="paymentMethod" value="Cartão" disabled>
+                    <span>Cartão <small>Indisponível</small></span>
+                  </label>
+                  <label class="payment-option is-selected">
+                    <input type="radio" name="paymentMethod" value="Dinheiro" checked required>
+                    <span>Dinheiro</span>
+                  </label>
+                </div>
+                <p class="field-status" id="unavailable-payments-note">Pix e cartão não estão integrados nesta versão; somente dinheiro pode ser selecionado.</p>
+              </fieldset>
+
+              <div class="fare-summary" aria-live="polite">
+                <span id="fare-title">Tarifa fixa da corrida</span>
+                <strong>R$ 7,00</strong>
+              </div>
+              <p class="fare-note">Valor confirmado pelo servidor.</p>
+
+              <button class="submit-button" id="continue-booking" type="submit">Continuar <span aria-hidden="true">↗</span></button>
+              <p class="form-note" id="booking-form-note"><span aria-hidden="true">♧</span> Seus dados são usados somente para organizar sua corrida.</p>
+              <p class="form-feedback" id="form-feedback" role="status" aria-live="polite" hidden></p>
+            </form>
+
+            <section class="ride-status" id="ride-status" aria-live="polite" hidden>
+              <p class="eyebrow">ACOMPANHAMENTO</p>
+              <h3 id="ride-status-title">Solicitação registrada</h3>
+              <p id="ride-status-message">Solicitação registrada — aguardando atendimento.</p>
+              <dl class="ride-status-summary" id="ride-status-summary"></dl>
+              <button class="secondary-button" id="cancel-ride" type="button">Cancelar solicitação</button>
+              <button class="secondary-button" id="request-another" type="button" hidden>Solicitar outra corrida</button>
+            </section>
+          </div>
+        </div>
+
+        <dialog class="ride-confirmation" id="ride-confirmation" aria-labelledby="confirmation-title">
+          <p class="eyebrow">REVISÃO FINAL</p>
+          <h2 id="confirmation-title">Está tudo certo para sua corrida?</h2>
+          <dl class="ride-confirmation-summary" id="ride-confirmation-summary"></dl>
+          <p class="confirmation-feedback" id="confirmation-feedback" role="status" aria-live="polite" hidden></p>
+          <div class="confirmation-actions">
+            <button class="secondary-button" id="edit-ride" type="button">Voltar e editar</button>
+            <button class="submit-button" id="confirm-ride" type="button">Confirmar solicitação</button>
+          </div>
+        </dialog>
+      </section>
+
+      <section class="how-section" id="como-funciona" aria-labelledby="how-title">
+        <div class="how-intro">
+     
+    
+      
+    
+      
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a class="brand footer-brand" href="#" aria-label="Veloz, início">
+        <img class="brand-mark" src="icon.jpg" alt="" aria-hidden="true"><span>veloz<span class="brand-period">.</span></span>
+      </a>
+      <p>Mais caminho. Menos espera.</p>
+      <span class="footer-copy">© 2026 Veloz Moto Táxi</span>
+    </footer>
+  </body>
+</html>

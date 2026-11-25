@@ -1,0 +1,12 @@
+veloz.sqlite3
+veloz.sqlite3-shm
+veloz.sqlite3-wal
+*.sqlite3
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv/
+env/
+.idea/
+.vscode/
