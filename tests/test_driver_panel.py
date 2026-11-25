@@ -220,7 +220,7 @@ class DriverPanelTests(unittest.TestCase):
             dashboard = driver.get("/api/driver/dashboard?period=30dias").json()
             self.assertEqual(dashboard["metrics"]["completed_rides"], 1)
             self.assertEqual(dashboard["metrics"]["confirmed_earnings_cents"], 0)
-            self.assertEqual(dashboard["metrics"]["pending_payments_cents"], 700)
+            self.assertEqual(dashboard["metrics"]["pending_payments_cents"], 500)
             self.assertGreaterEqual(dashboard["metrics"]["gps_distance_m"], 0)
             self.assertEqual(customer.post(f"/api/rides/{ride_id}/review", json={"stars": 5}).status_code, 201)
             self.assertEqual(customer.post(f"/api/rides/{ride_id}/review", json={"stars": 4}).status_code, 409)
@@ -307,7 +307,7 @@ class DriverPanelTests(unittest.TestCase):
                 },
             )
             self.assertEqual(response.status_code, 201, response.text)
-            self.assertEqual(response.json()["amount_cents"], 700)
+            self.assertEqual(response.json()["amount_cents"], 500)
             ride = customer.get("/api/rides/mine").json()["rides"][0]
             scheduled = datetime.fromisoformat(ride["scheduled_at"])
             self.assertGreaterEqual(scheduled, before)

@@ -127,7 +127,7 @@ class OrderAndRideServiceTests(unittest.TestCase):
         self.assertEqual(response.status_code, 201, response.text)
         data = response.json()
         self.assertEqual(data["service_type"], "passageiro")
-        self.assertEqual(data["amount_cents"], 700)
+        self.assertEqual(data["amount_cents"], 500)
         self.assertEqual(data["status"], "solicitada")
 
     def test_order_service_creation_and_auto_fill(self) -> None:
@@ -148,7 +148,7 @@ class OrderAndRideServiceTests(unittest.TestCase):
         self.assertEqual(response.status_code, 201, response.text)
         data = response.json()
         self.assertEqual(data["service_type"], "pedido")
-        self.assertEqual(data["amount_cents"], 700)
+        self.assertEqual(data["amount_cents"], 500)
         self.assertEqual(data["status"], "solicitada")
 
         ride_id = data["id"]

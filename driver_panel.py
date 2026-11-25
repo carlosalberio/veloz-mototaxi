@@ -36,7 +36,7 @@ ReportKind = Literal[
     "distancia",
     "rotas",
 ]
-BASE_FARE_CENTS = 700
+BASE_FARE_CENTS = 500
 # Limite municipal simplificado da malha do IBGE (Serra Talhada, código 2613909).
 _SERRA_TALHADA_BOUNDARY = (
     (-38.0282, -8.1336),

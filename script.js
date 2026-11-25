@@ -1411,7 +1411,7 @@ const buildConfirmationSummary = () => {
     [isOrder ? 'Endereço de entrega' : 'Destino', destination?.label || 'Não selecionado'],
     ['Pagamento', 'Dinheiro'],
     ['Distância e tempo', 'Indisponíveis — serviço de rotas não conectado'],
-    ['Preço', 'Tarifa fixa: R$ 7,00'],
+    ['Preço', 'Tarifa fixa: R$ 5,00'],
   );
   setDescriptionList(confirmationSummary, items);
 };
@@ -1456,7 +1456,7 @@ const renderRideStatus = (ride) => {
     [isOrder ? 'Entrega' : 'Destino', ride.destination || mapLocations.destination.selection?.label || '—'],
     ['Pagamento', ride.payment_method || 'Dinheiro'],
     ['Situação do pagamento', ride.payment_status === 'confirmado' ? 'Confirmado' : 'Pendente'],
-    ['Tarifa', formatCurrency((ride.amount_cents ?? 700) / 100)],
+    ['Tarifa', formatCurrency((ride.amount_cents ?? 500) / 100)],
   ]);
 };
 
